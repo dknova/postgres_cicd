@@ -3,5 +3,7 @@ CREATE TABLE IF NOT EXISTS company_clients (
     company_name VARCHAR(150) NOT NULL,
     contact_person VARCHAR(100),
     project_budget NUMERIC(12,2),
-    email VARCHAR(100)
+    email VARCHAR(100),
+    phone_number VARCHAR(20)
 );
+
