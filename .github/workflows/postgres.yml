@@ -1,0 +1,17 @@
+name: PostgreSQL CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate-sql:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Show SQL File
+        run: cat schema.sql
