@@ -6,12 +6,34 @@ on:
       - main
 
 jobs:
-  validate-sql:
+  test-postgres:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Show SQL File
-        run: cat schema.sql
+      - name: Install PostgreSQL Client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Apply Schema
+        env:
+          PGPASSWORD: postgres
+        run: |
+          psql -h localhost -U postgres -d testdb -f schema.sql
+
+      - name: Verify Table
+        env:
+          PGPASSWORD: postgres
+        run: |
+          psql -h localhost -U postgres -d testdb -c "\d company_clients"
